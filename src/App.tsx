@@ -52,7 +52,7 @@ export default function App() {
                 <AnimatedThemeToggle />
             </div>
             <div className="space-y-4">
-                <h2 className="text-2xl font-semibold tracking-tight">Table 1: Raw Data</h2>
+                <h2 className="text-2xl font-semibold tracking-tight">Raw Data</h2>
                 <div className="rounded-xl border shadow-sm">
                     <Table>
                         <TableHeader>
