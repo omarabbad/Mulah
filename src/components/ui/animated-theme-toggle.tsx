@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "./button";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
@@ -8,15 +8,25 @@ export const AnimatedThemeToggle = ({ className }: { className?: string }) => {
     document.documentElement.classList.contains("dark")
   );
 
-  useEffect(() => {
-    if (isDark) {
+  const applyTheme = useCallback((dark: boolean) => {
+    if (dark) {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, [isDark]);
+  }, []);
 
-  const toggle = useCallback(() => setIsDark((d) => !d), []);
+  const toggle = useCallback(() => {
+    const next = !isDark;
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        applyTheme(next);
+      });
+    } else {
+      applyTheme(next);
+    }
+    setIsDark(next);
+  }, [isDark, applyTheme]);
 
   return (
     <Button
